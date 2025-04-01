@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
@@ -21,17 +20,30 @@ public class GameMaanger : MonoBehaviour
 
     private void GenerateCorridor(int length)
     {
+       Vector3 paredIzquierdaStartPos = paredSinPuerta.transform.position, paredDerechaStartPos = paredConPuerta.transform.position; 
+        
+
         Vector3 sizePiso = piso.GetComponent<Collider>().bounds.size;
         Vector3 sizePared = paredConPuerta.GetComponent<Collider>().bounds.size;
+
+        Debug.Log($"size pared: {sizePared.ToString()}");
             for (int i = 0; i < length; i++)
             {
 
                 //crear piso primeroo:
-                Vector3 posSpawnPiso = new Vector3(piso.transform.position.x+ i * 10, 
+                Vector3 posSpawnPiso = new Vector3(piso.transform.position.x, 
                 piso.transform.position.y
-                ,piso.transform.position.z);
+                ,piso.transform.position.z + i * sizePiso.z);
+                var tmpPiso = Instantiate(piso, posSpawnPiso,quaternion.identity);
                 
-                var tmpPiso = Instantiate(piso);
+                //ahoora la pared izq
+                Vector3 posSpawnParedIzquierda = new Vector3(paredIzquierdaStartPos.x,paredIzquierdaStartPos.y,paredIzquierdaStartPos.z + i * sizePared.z);
+                bool conPuerta = UnityEngine.Random.Range(0,10) > 5; 
+                var tmpParedIzquierda = Instantiate(conPuerta ? paredConPuerta : paredSinPuerta, posSpawnParedIzquierda,quaternion.Euler(270,0,0));
+                //pared derecha
+                Vector3 posSpawnParedDerecha = new Vector3(paredDerechaStartPos.x,paredDerechaStartPos.y,paredDerechaStartPos.z + i * sizePared.z);
+                bool conPuertaDerecha = UnityEngine.Random.Range(0,10) > 5; 
+                var tmpParedDerecha = Instantiate(conPuerta ? paredConPuerta : paredSinPuerta, posSpawnParedDerecha,quaternion.Euler(270,0,0));
             }
     }
 
