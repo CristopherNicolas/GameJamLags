@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     public float intensidadModoCiego = 0.2f;
     public bool modoCiego = false,canMove = true;
     public float speed = 5f,rotationSpeed = 10f;
-    [SerializeField] InputActionReference move, cambiar, interactuar;
+    [SerializeField] InputActionReference move, cambiar, interactuar, correr;
     [SerializeField] CharacterController controller;
     [SerializeField] GameObject personajeCiego,personajeSinSentimientos;
     [SerializeField] CinemachineCamera camara;
@@ -22,7 +22,9 @@ public class Player : MonoBehaviour
     {
         if(instance == null) instance = this;
         else Destroy(gameObject);
-        
+
+     
+
         //agregar a todas las luces su intensidad al nombre
         FindObjectsByType<Light>(FindObjectsInactive.Include, FindObjectsSortMode.None).ToList().ForEach(l => l.name+=$":{l.intensity}");
 
@@ -62,8 +64,11 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
+        if(correr.action.IsPressed())speed = 15f;
+        else speed = 10f;
+        
         Vector2 moveVector = move.action.ReadValue<Vector2>();
-
+        
         if (moveVector != Vector2.zero && canMove)
         {
             Vector3 moveDirection = new Vector3(moveVector.x, 0, moveVector.y).normalized;
