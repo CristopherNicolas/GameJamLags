@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     public float intensidadModoCiego = 0.2f;
     public bool modoCiego = false,canMove = true;
     public float speed = 5f,rotationSpeed = 10f;
-    [SerializeField] InputActionReference move, cambiar, interactuar, correr;
+    [SerializeField] InputActionReference move, cambiar, correr;
     [SerializeField] CharacterController controller;
     [SerializeField] GameObject personajeCiego,personajeSinSentimientos;
     [SerializeField] CinemachineCamera camara;
